@@ -1,0 +1,6 @@
+{
+  "name": "Quantum Hub PDF Compressor",
+  "description": "Client-side browser PDF compression powered by Ghostscript and qpdf WebAssembly under AGPL-3.0.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
