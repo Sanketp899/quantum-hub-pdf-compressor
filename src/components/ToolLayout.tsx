@@ -128,17 +128,17 @@ export default function ToolLayout({
         <section aria-label="Advertisement" className="w-full">
           <div className="rounded-xl border border-dashed border-slate-800 bg-slate-900/40 p-3 text-center">
             <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold tracking-wider uppercase mb-1 px-1">
-              <span>Advertisement</span>
-              <span className="text-[10px] text-slate-600 font-normal">AdSense Compliant Placement</span>
+              <span>Ad</span>
+              <span className="text-[10px] text-slate-600 font-normal"></span>
             </div>
             {/* Standard responsive ad container slot */}
             <div className="min-h-[90px] w-full flex flex-col items-center justify-center rounded-lg bg-slate-950/60 border border-slate-800/60 p-4 text-slate-400">
               <div className="flex items-center gap-2 text-xs font-medium text-slate-400">
                 <Sparkles className="w-4 h-4 text-indigo-400" />
-                <span>Google AdSense Display Space</span>
+                
               </div>
               <p className="text-[11px] text-slate-500 mt-1 max-w-md">
-                Placed respectfully in compliance with Google publisher policies (not placed beside download triggers).
+                
               </p>
             </div>
           </div>
@@ -163,13 +163,13 @@ export default function ToolLayout({
         <section aria-label="Advertisement" className="w-full pt-4">
           <div className="rounded-xl border border-dashed border-slate-800 bg-slate-900/40 p-3 text-center">
             <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold tracking-wider uppercase mb-1 px-1">
-              <span>Advertisement</span>
-              <span className="text-[10px] text-slate-600 font-normal">Google AdSense Space</span>
+              <span>Ad</span>
+              <span className="text-[10px] text-slate-600 font-normal"></span>
             </div>
             <div className="min-h-[120px] w-full flex flex-col items-center justify-center rounded-lg bg-slate-950/60 border border-slate-800/60 p-4 text-slate-400">
               <div className="flex items-center gap-2 text-xs font-medium text-slate-400">
                 <Sparkles className="w-4 h-4 text-indigo-400" />
-                <span>Responsive Ad Unit</span>
+                
               </div>
               <p className="text-[11px] text-slate-500 mt-1">
                 Supports standard display formats (728x90, 336x280, 300x250, fluid responsive)
@@ -285,14 +285,7 @@ export default function ToolLayout({
             </div>
           </div>
 
-          <div className="border-t border-slate-800/80 pt-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-slate-500 text-[11px]">
-            <p>
-              Ghostscript is a registered trademark of Artifex Software, Inc. Distributed in compliance with GNU Affero GPL v3.0.
-            </p>
-            <p>
-              Deployed with ₹0 infrastructure cost on Cloudflare Pages.
-            </p>
-          </div>
+          
         </div>
       </footer>
 
