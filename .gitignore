@@ -1,8 +1,21 @@
 node_modules/
-build/
 dist/
-coverage/
-.DS_Store
+dist-ssr/
+*.local
+
+# Logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Environment & internal metadata
 .env*
 !.env.example
+metadata.json
+bun.lock
