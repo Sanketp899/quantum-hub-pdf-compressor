@@ -1,0 +1,45 @@
+# Quantum Hub PDF Compressor
+
+> Quantum Hub PDF Compressor is a browser-based PDF compression tool that processes supported PDF files locally using WebAssembly. The application is designed so that PDF content does not need to be uploaded to a PDF-processing server.
+
+Quantum Hub PDF Compressor is a standalone application associated with Quantum Hub.
+
+## Tool
+
+- [PDF Compressor](https://compress.quantumtools.site/): Compress PDF files using local browser-based WebAssembly processing.
+- [Quantum Hub](https://quantumtools.site/): Main Quantum Hub utility website.
+
+## Information
+
+- [Privacy Policy](https://compress.quantumtools.site/privacy): Information about data handling and local browser processing.
+- [Terms of Service](https://compress.quantumtools.site/terms): Terms governing use of the compressor.
+- [Licenses](https://compress.quantumtools.site/licenses): Open-source and third-party software licenses.
+- [Source Code](https://github.com/Sanketp899/quantum-hub-pdf-compressor): Public source repository for the compressor application.
+
+## Technology
+
+- React
+- TypeScript
+- Vite
+- WebAssembly
+- qpdf WebAssembly for lossless structural optimization
+- Ghostscript WebAssembly for deeper PDF image compression
+
+## Privacy
+
+PDF files selected for compression are processed locally in the user's browser. The application is designed not to upload PDF contents to a PDF-processing backend.
+
+## Compression Modes
+
+- Lossless: structural PDF optimization without intentional image-quality reduction.
+- Balanced: high-quality compression with moderate image optimization.
+- Maximum: stronger image compression for smaller files.
+- Extreme: aggressive image compression intended for smaller output files.
+
+## Third-Party Software
+
+- Ghostscript 10.08.0
+- @wasm-zoo/ghostscript
+- qpdf / pdfstudio components
+
+See the Licenses page and the repository's third-party notices for applicable license information.
