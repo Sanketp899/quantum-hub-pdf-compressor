@@ -1,27 +1,78 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
 import {
-  ShieldCheck,
   Code2,
-  FileText,
-  ExternalLink,
-  Scale,
-  Lock,
   Cpu,
-  Info,
-  X,
-  HelpCircle,
+  ExternalLink,
   FileCheck,
-  Sparkles
+  Lock,
+  Scale,
+  ShieldCheck,
+  Sparkles,
+  X,
 } from 'lucide-react';
 
-interface ToolLayoutProps {
+type ToolLayoutProps = {
   title: string;
   description: string;
-  icon: React.ReactNode;
-  children: React.ReactNode;
-}
+  icon: ReactNode;
+  children: ReactNode;
+};
 
-type LegalModalType = 'privacy' | 'terms' | 'licenses' | 'source' | 'how-it-works' | null;
+type ModalType =
+  | 'privacy'
+  | 'terms'
+  | 'licenses'
+  | 'source'
+  | 'how-it-works'
+  | null;
+
+type WindowWithAdSense = Window & {
+  adsbygoogle?: unknown[];
+};
+
+const GITHUB_URL =
+  'https://github.com/Sanketp899/quantum-hub-pdf-compressor';
+
+const MAIN_SITE_URL =
+  'https://quantumtools.site/';
+
+function AdBanner({
+  slotId,
+}: {
+  slotId: string;
+}) {
+  useEffect(() => {
+    try {
+      const adWindow =
+        window as WindowWithAdSense;
+
+      adWindow.adsbygoogle =
+        adWindow.adsbygoogle || [];
+
+      adWindow.adsbygoogle.push({});
+    } catch (error) {
+      console.warn(
+        'AdSense initialization failed:',
+        error,
+      );
+    }
+  }, []);
+
+  return (
+    <ins
+      className="adsbygoogle"
+      style={{
+        display: 'block',
+        width: '100%',
+      }}
+      data-ad-client="ca-pub-4241396850652533"
+      data-ad-slot={slotId}
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+    />
+  );
+}
 
 export default function ToolLayout({
   title,
@@ -29,255 +80,317 @@ export default function ToolLayout({
   icon,
   children,
 }: ToolLayoutProps) {
-  const [activeModal, setActiveModal] = useState<LegalModalType>(null);
-  const [showAdNotice, setShowAdNotice] = useState(true);
+  const [activeModal, setActiveModal] =
+    useState<ModalType>(null);
+
+  const closeModal = () => {
+    setActiveModal(null);
+  };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 selection:bg-indigo-500 selection:text-white">
-      {/* Top Banner / Privacy Bar */}
-      <div className="bg-slate-900/90 border-b border-slate-800 text-xs text-slate-400 py-2 px-4">
-        <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1 text-emerald-400 font-medium">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              100% Client-Side
-            </span>
-            <span className="text-slate-600">•</span>
-            <span>PDFs never leave your browser</span>
-            <span className="text-slate-600">•</span>
-            <span>Zero server upload</span>
-          </div>
+    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100">
+      {/* TOP PRIVACY BAR */}
+      <div className="border-b border-slate-800 bg-slate-900">
+        <div className="max-w-6xl mx-auto px-4 py-2">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
+            <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-slate-400">
+              <span className="inline-flex items-center gap-1 text-emerald-400 font-semibold">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                Local browser processing
+              </span>
 
-          <div className="flex items-center gap-4 text-slate-400">
-            <a
-              href="https://quantumtools.site"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-indigo-400 transition-colors inline-flex items-center gap-1 font-medium text-slate-300"
-            >
-              Quantum Hub Main Site
-              <ExternalLink className="w-3 h-3 text-slate-500" />
-            </a>
-            <span className="text-slate-700">|</span>
-            <a
-              href="https://github.com/Sanketp899/quantum-hub-pdf-compressor"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-indigo-400 transition-colors inline-flex items-center gap-1 font-medium"
-            >
-              <Code2 className="w-3 h-3" />
-              GitHub AGPL-3.0
-            </a>
+              <span className="text-slate-700">
+                •
+              </span>
+
+              <span>
+                PDF contents are processed locally
+              </span>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <a
+                href={MAIN_SITE_URL}
+                className="inline-flex items-center gap-1 text-slate-400 hover:text-white transition-colors"
+              >
+                Quantum Hub
+                <ExternalLink className="w-3 h-3" />
+              </a>
+
+              <a
+                href={GITHUB_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-slate-400 hover:text-indigo-400 transition-colors"
+              >
+                <Code2 className="w-3 h-3" />
+                Source
+              </a>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Main Header */}
-      <header className="border-b border-slate-800/80 bg-slate-900/50 backdrop-blur sticky top-0 z-30">
-        <div className="max-w-6xl mx-auto px-4 py-3.5 sm:py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-600 text-white flex items-center justify-center shadow-lg shadow-indigo-500/20">
-              {icon}
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-lg sm:text-xl font-bold tracking-tight text-white">
-                  Quantum Hub <span className="text-indigo-400">PDF Compressor</span>
-                </h1>
-                <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
-                  AGPL-3.0
-                </span>
+      {/* HEADER */}
+      <header className="sticky top-0 z-30 border-b border-slate-800 bg-slate-950/95 backdrop-blur">
+        <div className="max-w-6xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 shrink-0">
+                {icon}
               </div>
-              <p className="text-xs text-slate-400 hidden sm:block">
-                Free high-efficiency PDF compressor powered by Ghostscript & qpdf WASM
-              </p>
+
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h1 className="text-lg sm:text-xl font-bold tracking-tight text-white">
+                    Quantum Hub
+                    <span className="text-indigo-400">
+                      {' '}
+                      PDF Compressor
+                    </span>
+                  </h1>
+
+                  <span className="inline-flex items-center rounded-full border border-indigo-500/20 bg-indigo-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-indigo-300">
+                    AGPL-3.0
+                  </span>
+                </div>
+
+                <p className="hidden sm:block text-xs text-slate-500 mt-0.5">
+                  Browser-based PDF compression with WebAssembly
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-1.5 shrink-0">
+              <button
+                type="button"
+                onClick={() =>
+                  setActiveModal(
+                    'how-it-works',
+                  )
+                }
+                className="hidden md:inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-900 transition-colors"
+              >
+                <Cpu className="w-3.5 h-3.5" />
+                How It Works
+              </button>
+
+              <button
+                type="button"
+                onClick={() =>
+                  setActiveModal('privacy')
+                }
+                className="hidden sm:inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-900 transition-colors"
+              >
+                <Lock className="w-3.5 h-3.5" />
+                Privacy
+              </button>
+
+              <button
+                type="button"
+                onClick={() =>
+                  setActiveModal('licenses')
+                }
+                className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-900 transition-colors"
+              >
+                <Scale className="w-3.5 h-3.5" />
+                Licenses
+              </button>
             </div>
           </div>
-
-          {/* Header Quick Navigation */}
-          <nav className="flex items-center gap-2 text-xs font-medium">
-            <button
-              onClick={() => setActiveModal('how-it-works')}
-              className="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition-colors hidden md:inline-flex items-center gap-1.5"
-            >
-              <Cpu className="w-3.5 h-3.5 text-indigo-400" />
-              How It Works
-            </button>
-            <button
-              onClick={() => setActiveModal('privacy')}
-              className="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition-colors hidden sm:inline-flex items-center gap-1.5"
-            >
-              <Lock className="w-3.5 h-3.5 text-emerald-400" />
-              Privacy
-            </button>
-            <button
-              onClick={() => setActiveModal('licenses')}
-              className="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition-colors inline-flex items-center gap-1.5"
-            >
-              <Scale className="w-3.5 h-3.5 text-amber-400" />
-              Licenses
-            </button>
-          </nav>
         </div>
       </header>
 
-      {/* Main Container */}
-      <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-6 sm:py-8 space-y-8">
-        
-        {/* AdSense Zone 1: Top Responsive Banner */}
-        <section aria-label="Advertisement" className="w-full">
-          <div className="rounded-xl border border-dashed border-slate-800 bg-slate-900/40 p-3 text-center">
-            <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold tracking-wider uppercase mb-1 px-1">
-              <span>Ad</span>
-              <span className="text-[10px] text-slate-600 font-normal"></span>
+      {/* MAIN */}
+      <main className="flex-1 w-full max-w-4xl mx-auto px-4 py-6 sm:py-8 space-y-8">
+        {/* TOP AD */}
+        <section
+          aria-label="Advertisement"
+          className="w-full"
+        >
+          <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-3">
+            <div className="flex items-center justify-between mb-1 px-1">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-600">
+                Advertisement
+              </span>
+
+              <Sparkles className="w-3 h-3 text-slate-700" />
             </div>
-            {/* Standard responsive ad container slot */}
-            <div className="min-h-[90px] w-full flex flex-col items-center justify-center rounded-lg bg-slate-950/60 border border-slate-800/60 p-4 text-slate-400">
-              <div className="flex items-center gap-2 text-xs font-medium text-slate-400">
-                <Sparkles className="w-4 h-4 text-indigo-400" />
-                
-              </div>
-              <p className="text-[11px] text-slate-500 mt-1 max-w-md">
-                
-              </p>
+
+            <div className="min-h-[90px] w-full flex items-center justify-center overflow-hidden">
+              <AdBanner
+                slotId="3573966771"
+              />
             </div>
           </div>
         </section>
 
-        {/* Tool Header Details */}
-        <div className="text-center space-y-2 max-w-2xl mx-auto">
+        {/* TITLE */}
+        <section className="text-center max-w-2xl mx-auto">
           <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
             {title}
           </h2>
-          <p className="text-sm sm:text-base text-slate-400 leading-relaxed">
+
+          <p className="mt-2 text-sm sm:text-base leading-relaxed text-slate-400">
             {description}
           </p>
-        </div>
+        </section>
 
-        {/* The Compression Tool Component */}
-        <div className="bg-slate-900/60 border border-slate-800/80 rounded-3xl p-5 sm:p-8 shadow-2xl backdrop-blur-sm">
+        {/* TOOL */}
+        <section className="rounded-3xl border border-slate-800 bg-slate-900/70 p-5 sm:p-8 shadow-2xl">
           {children}
-        </div>
+        </section>
 
-        {/* AdSense Zone 2: Bottom Banner (Spaced safely away from download action) */}
-        <section aria-label="Advertisement" className="w-full pt-4">
-          <div className="rounded-xl border border-dashed border-slate-800 bg-slate-900/40 p-3 text-center">
-            <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold tracking-wider uppercase mb-1 px-1">
-              <span>Ad</span>
-              <span className="text-[10px] text-slate-600 font-normal"></span>
+        {/* BOTTOM AD */}
+        <section
+          aria-label="Advertisement"
+          className="w-full pt-2"
+        >
+          <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-3">
+            <div className="flex items-center justify-between mb-1 px-1">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-600">
+                Advertisement
+              </span>
+
+              <Sparkles className="w-3 h-3 text-slate-700" />
             </div>
-            <div className="min-h-[120px] w-full flex flex-col items-center justify-center rounded-lg bg-slate-950/60 border border-slate-800/60 p-4 text-slate-400">
-              <div className="flex items-center gap-2 text-xs font-medium text-slate-400">
-                <Sparkles className="w-4 h-4 text-indigo-400" />
-                
-              </div>
-              <p className="text-[11px] text-slate-500 mt-1">
-                Supports standard display formats (728x90, 336x280, 300x250, fluid responsive)
-              </p>
+
+            <div className="min-h-[120px] w-full flex items-center justify-center overflow-hidden">
+              <AdBanner
+                slotId="8669993746"
+              />
             </div>
           </div>
         </section>
 
-        {/* Technical Architecture & Explainer Section */}
-        <section className="rounded-2xl border border-slate-800 bg-slate-900/40 p-6 sm:p-8 space-y-6">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20">
+        {/* INFORMATION */}
+        <section className="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 sm:p-8">
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0">
               <Cpu className="w-5 h-5" />
             </div>
+
             <div>
-              <h3 className="font-bold text-slate-100 text-lg">
-                Engine Architecture & Technology
+              <h3 className="text-lg font-bold text-white">
+                Browser-based PDF compression
               </h3>
-              <p className="text-xs text-slate-400">
-                True client-side WebAssembly execution with dual-engine pipeline
+
+              <p className="mt-2 text-sm leading-relaxed text-slate-400">
+                Quantum Hub PDF Compressor uses
+                WebAssembly engines in the browser.
+                Supported PDF contents are processed
+                locally rather than being sent to a
+                PDF-processing server.
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-            <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800/70 space-y-2">
-              <div className="flex items-center gap-2 font-semibold text-slate-200">
-                <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-                Lossless Mode: qpdf WASM
-              </div>
-              <p className="text-slate-400 leading-relaxed">
-                Utilizes Jay Berkenbilt's industry-standard <strong className="text-slate-300">qpdf</strong> compiled to WebAssembly. Recompresses object streams with Level 9 Flate/zlib compression without altering bitmap pixel matrices. Ideal for legal, signed, or vector-heavy PDFs.
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+            <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4">
+              <h4 className="font-bold text-slate-200">
+                Lossless
+              </h4>
+
+              <p className="mt-2 text-xs leading-relaxed text-slate-500">
+                Uses qpdf WebAssembly for structural
+                PDF optimization without intentional
+                image-quality reduction.
               </p>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800/70 space-y-2">
-              <div className="flex items-center gap-2 font-semibold text-slate-200">
-                <span className="w-2 h-2 rounded-full bg-indigo-400"></span>
-                Deep Compression: Ghostscript 10.08.0 WASM
-              </div>
-              <p className="text-slate-400 leading-relaxed">
-                Leverages Artifex's high-level <strong className="text-slate-300">pdfwrite</strong> device in WebAssembly. Applies intelligent bicubic downsampling (100–200 DPI) and native DCTEncode QFactor downsampling directly inside browser Web Workers.
-              </p>
-            </div>
-          </div>
+            <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4">
+              <h4 className="font-bold text-slate-200">
+                Deep compression
+              </h4>
 
-          <div className="p-4 rounded-xl bg-indigo-950/20 border border-indigo-900/30 flex items-start gap-3">
-            <Lock className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />
-            <div className="text-xs space-y-1">
-              <p className="font-semibold text-indigo-200">
-                Zero Cloud Upload & Unlimited Privacy
-              </p>
-              <p className="text-slate-400 leading-relaxed">
-                Unlike online converters that transmit your private documents to third-party cloud servers, Quantum Hub PDF Compressor runs 100% inside your browser's WebAssembly sandbox. Your financial reports, IDs, and confidential documents never leave your device.
+              <p className="mt-2 text-xs leading-relaxed text-slate-500">
+                Uses Ghostscript WebAssembly to
+                downsample and recompress suitable
+                raster images.
               </p>
             </div>
           </div>
         </section>
 
+        {/* PRIVACY NOTICE */}
+        <section className="rounded-2xl border border-emerald-900/40 bg-emerald-950/20 p-5">
+          <div className="flex items-start gap-3">
+            <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+
+            <div>
+              <h3 className="font-bold text-emerald-200">
+                Local processing
+              </h3>
+
+              <p className="mt-1 text-sm leading-relaxed text-emerald-100/70">
+                PDF contents are processed in your
+                browser. The compressor does not
+                require a PDF-processing upload server.
+              </p>
+            </div>
+          </div>
+        </section>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-800 bg-slate-900/60 py-8 px-4 text-xs text-slate-400">
-        <div className="max-w-6xl mx-auto space-y-6">
+      {/* FOOTER */}
+      <footer className="border-t border-slate-800 bg-slate-950 py-8 px-4">
+        <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="space-y-1 text-center md:text-left">
-              <p className="font-bold text-slate-200 text-sm">
+            <div className="text-center md:text-left">
+              <p className="font-bold text-sm text-slate-200">
                 Quantum Hub PDF Compressor
               </p>
-              <p className="text-slate-500">
-                Open-source client-side PDF optimization utility licensed under GNU AGPL v3.0.
+
+              <p className="mt-1 text-xs text-slate-500">
+                Browser-based PDF compression utility.
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-4 text-slate-300">
+            <div className="flex flex-wrap items-center justify-center gap-4 text-xs">
               <button
-                onClick={() => setActiveModal('privacy')}
-                className="hover:text-indigo-400 transition-colors"
+                type="button"
+                onClick={() =>
+                  setActiveModal('privacy')
+                }
+                className="text-slate-400 hover:text-white transition-colors"
               >
-                Privacy Policy
+                Privacy
               </button>
-              <span className="text-slate-700">•</span>
+
               <button
-                onClick={() => setActiveModal('terms')}
-                className="hover:text-indigo-400 transition-colors"
+                type="button"
+                onClick={() =>
+                  setActiveModal('terms')
+                }
+                className="text-slate-400 hover:text-white transition-colors"
               >
-                Terms of Use
+                Terms
               </button>
-              <span className="text-slate-700">•</span>
+
               <button
-                onClick={() => setActiveModal('licenses')}
-                className="hover:text-indigo-400 transition-colors"
+                type="button"
+                onClick={() =>
+                  setActiveModal('licenses')
+                }
+                className="text-slate-400 hover:text-white transition-colors"
               >
-                Licenses & Notices
+                Licenses
               </button>
-              <span className="text-slate-700">•</span>
+
               <button
-                onClick={() => setActiveModal('source')}
-                className="hover:text-indigo-400 transition-colors font-medium text-indigo-400"
+                type="button"
+                onClick={() =>
+                  setActiveModal('source')
+                }
+                className="inline-flex items-center gap-1 text-indigo-400 hover:text-indigo-300 transition-colors"
               >
-                AGPL Source Code
+                <Code2 className="w-3.5 h-3.5" />
+                Source Code
               </button>
-              <span className="text-slate-700">•</span>
+
               <a
-                href="https://quantumtools.site"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-indigo-400 transition-colors inline-flex items-center gap-1 text-slate-400"
+                href={MAIN_SITE_URL}
+                className="inline-flex items-center gap-1 text-slate-400 hover:text-white transition-colors"
               >
                 Quantum Hub
                 <ExternalLink className="w-3 h-3" />
@@ -285,166 +398,340 @@ export default function ToolLayout({
             </div>
           </div>
 
-          
+          <div className="border-t border-slate-900 mt-6 pt-5 text-center">
+            <p className="text-[11px] text-slate-600">
+              Quantum Hub PDF Compressor is
+              distributed under the GNU Affero
+              General Public License version 3
+              or later.
+            </p>
+          </div>
         </div>
       </footer>
 
-      {/* Legal & Info Modals */}
-      {activeModal && (
+      {/* MODAL */}
+      {activeModal !== null && (
         <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm"
-          onClick={() => setActiveModal(null)}
+          onClick={closeModal}
         >
           <div
-            className="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-2xl max-h-[85vh] overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 shadow-2xl"
+            onClick={(event) =>
+              event.stopPropagation()
+            }
           >
-            {/* Modal Header */}
-            <div className="flex items-center justify-between p-5 border-b border-slate-800 bg-slate-950/40">
+            {/* MODAL HEADER */}
+            <div className="flex items-center justify-between border-b border-slate-800 px-5 py-4">
               <div className="flex items-center gap-2.5">
-                {activeModal === 'privacy' && <Lock className="w-5 h-5 text-emerald-400" />}
-                {activeModal === 'terms' && <FileCheck className="w-5 h-5 text-indigo-400" />}
-                {activeModal === 'licenses' && <Scale className="w-5 h-5 text-amber-400" />}
-                {activeModal === 'source' && <Code2 className="w-5 h-5 text-indigo-400" />}
-                {activeModal === 'how-it-works' && <Cpu className="w-5 h-5 text-indigo-400" />}
+                {activeModal ===
+                  'privacy' && (
+                  <Lock className="w-5 h-5 text-emerald-400" />
+                )}
 
-                <h3 className="font-bold text-slate-100 text-lg">
-                  {activeModal === 'privacy' && 'Privacy Policy'}
-                  {activeModal === 'terms' && 'Terms of Service'}
-                  {activeModal === 'licenses' && 'Licenses & Third-Party Notices'}
-                  {activeModal === 'source' && 'Open Source & AGPL-3.0 Disclosure'}
-                  {activeModal === 'how-it-works' && 'How Browser Compression Works'}
+                {activeModal ===
+                  'terms' && (
+                  <FileCheck className="w-5 h-5 text-indigo-400" />
+                )}
+
+                {activeModal ===
+                  'licenses' && (
+                  <Scale className="w-5 h-5 text-amber-400" />
+                )}
+
+                {activeModal ===
+                  'source' && (
+                  <Code2 className="w-5 h-5 text-indigo-400" />
+                )}
+
+                {activeModal ===
+                  'how-it-works' && (
+                  <Cpu className="w-5 h-5 text-indigo-400" />
+                )}
+
+                <h3 className="font-bold text-lg text-white">
+                  {activeModal ===
+                    'privacy' &&
+                    'Privacy Policy'}
+
+                  {activeModal ===
+                    'terms' &&
+                    'Terms of Service'}
+
+                  {activeModal ===
+                    'licenses' &&
+                    'Licenses & Third-Party Notices'}
+
+                  {activeModal ===
+                    'source' &&
+                    'Open Source & Source Code'}
+
+                  {activeModal ===
+                    'how-it-works' &&
+                    'How Browser Compression Works'}
                 </h3>
               </div>
 
               <button
-                onClick={() => setActiveModal(null)}
-                className="w-8 h-8 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center justify-center transition-colors"
+                type="button"
+                onClick={closeModal}
+                aria-label="Close dialog"
+                className="w-9 h-9 rounded-lg flex items-center justify-center text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            {/* Modal Body */}
-            <div className="p-6 overflow-y-auto space-y-4 text-sm text-slate-300 leading-relaxed">
-              {activeModal === 'privacy' && (
-                <>
-                  <div className="p-4 rounded-xl bg-emerald-950/30 border border-emerald-900/50 text-emerald-200 font-medium">
-                    Strict Zero-Server Privacy: Your files never leave your device.
+            {/* MODAL CONTENT */}
+            <div className="overflow-y-auto max-h-[calc(85vh-80px)] p-6 text-sm leading-relaxed text-slate-400">
+              {activeModal ===
+                'privacy' && (
+                <div className="space-y-5">
+                  <div className="rounded-xl border border-emerald-900/50 bg-emerald-950/30 p-4 text-emerald-200">
+                    PDF contents are processed
+                    locally in the browser.
                   </div>
-                  <h4 className="font-bold text-white text-base">1. Document Processing</h4>
-                  <p>
-                    Quantum Hub PDF Compressor operates exclusively inside your browser via WebAssembly (qpdf and Ghostscript). The application does not transmit, upload, inspect, copy, or store your PDF files on any remote server.
-                  </p>
-                  <h4 className="font-bold text-white text-base">2. Analytics & Cookies</h4>
-                  <p>
-                    We do not collect telemetry on your document contents, filenames, or page data. Standard static asset requests and potential non-personalized ad delivery through Google AdSense follow Google's standard web privacy policies.
-                  </p>
-                  <h4 className="font-bold text-white text-base">3. Client-Side Security</h4>
-                  <p>
-                    Once the application assets (JavaScript, HTML, CSS, WASM modules) are loaded into your browser cache, the compression engine executes entirely within your browser's isolated sandbox memory.
-                  </p>
-                </>
-              )}
 
-              {activeModal === 'terms' && (
-                <>
-                  <h4 className="font-bold text-white text-base">1. Acceptance of Terms</h4>
-                  <p>
-                    By using Quantum Hub PDF Compressor, you agree to these terms. The tool is provided free of charge for personal and commercial use under the GNU Affero General Public License version 3.
-                  </p>
-                  <h4 className="font-bold text-white text-base">2. Disclaimer of Warranty</h4>
-                  <p className="text-slate-400 italic">
-                    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-                  </p>
-                  <h4 className="font-bold text-white text-base">3. Document Integrity</h4>
-                  <p>
-                    Always maintain backup copies of your critical original documents before performing lossy compression or file transformations.
-                  </p>
-                </>
-              )}
+                  <div>
+                    <h4 className="font-bold text-white mb-2">
+                      Document processing
+                    </h4>
 
-              {activeModal === 'licenses' && (
-                <>
-                  <h4 className="font-bold text-white text-base">Application License</h4>
-                  <p>
-                    Quantum Hub PDF Compressor is licensed under the <strong>GNU Affero General Public License v3.0 or later (AGPL-3.0-or-later)</strong>.
-                  </p>
-
-                  <h4 className="font-bold text-white text-base">Ghostscript 10.08.0 (WASM)</h4>
-                  <p>
-                    Licensed under <strong>GNU Affero General Public License v3.0 or later</strong> by Artifex Software, Inc. Bundled WebAssembly distribution by WASM Zoo (`@wasm-zoo/ghostscript`). See `LICENSE-Ghostscript.txt` for details.
-                  </p>
-
-                  <h4 className="font-bold text-white text-base">qpdf WebAssembly</h4>
-                  <p>
-                    Powered by `pdfstudio` / Jay Berkenbilt's qpdf, licensed under Apache-2.0 and Artistic License 2.0.
-                  </p>
-
-                  <h4 className="font-bold text-white text-base">pdf-lib</h4>
-                  <p>
-                    Copyright (c) 2019 Andrew Dillon. Licensed under the MIT License.
-                  </p>
-                </>
-              )}
-
-              {activeModal === 'source' && (
-                <>
-                  <h4 className="font-bold text-white text-base">AGPL-3.0 Source Disclosure</h4>
-                  <p>
-                    In strict compliance with Section 13 of the GNU Affero General Public License (AGPL-3.0), the complete source code required to build and run this public compressor is freely available.
-                  </p>
-                  <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
-                    <p className="font-mono text-xs text-indigo-300">
-                      GitHub: https://github.com/Sanketp899/quantum-hub-pdf-compressor
+                    <p>
+                      The compressor performs PDF
+                      processing in the user's
+                      browser using WebAssembly.
+                      The application does not
+                      require uploading PDF contents
+                      to a PDF-processing server.
                     </p>
-                    <a
-                      href="https://github.com/Sanketp899/quantum-hub-pdf-compressor"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs transition-colors"
-                    >
-                      <Code2 className="w-4 h-4" />
-                      View Public GitHub Repository
-                    </a>
                   </div>
-                  <p className="text-xs text-slate-400">
-                    This public AGPL application runs independently from the private Quantum Hub site at `quantumtools.site`.
-                  </p>
-                </>
+
+                  <div>
+                    <h4 className="font-bold text-white mb-2">
+                      Advertising
+                    </h4>
+
+                    <p>
+                      The website may display
+                      advertising provided by Google
+                      AdSense. Advertising services
+                      may use cookies or similar
+                      technologies according to
+                      Google's applicable policies.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h4 className="font-bold text-white mb-2">
+                      Browser resources
+                    </h4>
+
+                    <p>
+                      JavaScript, WebAssembly,
+                      stylesheets, fonts, images, and
+                      advertising resources may be
+                      downloaded by the browser in
+                      order to operate the website.
+                    </p>
+                  </div>
+                </div>
               )}
 
-              {activeModal === 'how-it-works' && (
-                <>
-                  <h4 className="font-bold text-white text-base">The Dual-Engine Approach</h4>
+              {activeModal ===
+                'terms' && (
+                <div className="space-y-5">
+                  <div>
+                    <h4 className="font-bold text-white mb-2">
+                      Use of the service
+                    </h4>
+
+                    <p>
+                      Quantum Hub PDF Compressor is
+                      provided as a free browser-based
+                      utility. Users are responsible
+                      for maintaining backups of
+                      important original documents.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h4 className="font-bold text-white mb-2">
+                      File integrity
+                    </h4>
+
+                    <p>
+                      Compression can change image
+                      data, PDF structure, metadata,
+                      or other document properties.
+                      Verify important output files
+                      before relying on them.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h4 className="font-bold text-white mb-2">
+                      Warranty disclaimer
+                    </h4>
+
+                    <p>
+                      The software is provided on an
+                      "as is" basis to the extent
+                      permitted by the applicable
+                      license and law.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {activeModal ===
+                'licenses' && (
+                <div className="space-y-5">
+                  <div>
+                    <h4 className="font-bold text-white mb-2">
+                      Quantum Hub PDF Compressor
+                    </h4>
+
+                    <p>
+                      This application is released
+                      under the GNU Affero General
+                      Public License version 3 or
+                      later.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h4 className="font-bold text-white mb-2">
+                      Ghostscript 10.08.0
+                    </h4>
+
+                    <p>
+                      Ghostscript is distributed under
+                      the GNU Affero General Public
+                      License version 3 or later.
+                      See the repository's Ghostscript
+                      license and third-party notices
+                      for the applicable copyright and
+                      license information.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h4 className="font-bold text-white mb-2">
+                      qpdf / pdfstudio
+                    </h4>
+
+                    <p>
+                      The project uses qpdf-related
+                      WebAssembly components through
+                      the project's declared npm
+                      dependencies. Refer to the
+                      repository and dependency
+                      license files for their
+                      applicable licenses.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h4 className="font-bold text-white mb-2">
+                      Third-party notices
+                    </h4>
+
+                    <p>
+                      Complete applicable license
+                      notices are provided in the
+                      public GitHub repository.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {activeModal ===
+                'source' && (
+                <div className="space-y-5">
+                  <div className="rounded-xl border border-indigo-900/50 bg-indigo-950/30 p-4">
+                    <p className="font-semibold text-indigo-200">
+                      Public source repository
+                    </p>
+
+                    <p className="mt-2 break-all font-mono text-xs text-slate-400">
+                      {GITHUB_URL}
+                    </p>
+                  </div>
+
                   <p>
-                    Most web-based PDF compressors use slow or insecure server uploads. Quantum Hub uses browser-native WebAssembly to achieve high compression rates directly on your machine:
+                    The source code for this public
+                    compressor application is available
+                    from the GitHub repository below.
                   </p>
-                  <ul className="list-disc list-inside space-y-2 pl-1 text-slate-300">
-                    <li>
-                      <strong className="text-white">Lossless Mode (qpdf WASM):</strong> Strips redundant internal cross-reference tables, generates compact object streams, and re-encodes stream payloads using maximum Flate deflate. Perfect for retaining 100% vector and text sharpness.
-                    </li>
-                    <li>
-                      <strong className="text-white">Balanced, Maximum, Extreme (Ghostscript WASM):</strong> Executes Ghostscript 10.08.0's `pdfwrite` device inside an isolated Web Worker. Downsamples embedded raster images using bicubic interpolation and applies native QFactor DCT encoding.
-                    </li>
-                  </ul>
-                  <p className="text-xs text-slate-400 mt-2">
-                    Before outputting the final file, the engine tests multiple downsample candidates and automatically keeps the smallest valid candidate.
-                  </p>
-                </>
-              )}
-            </div>
 
-            {/* Modal Footer */}
-            <div className="p-4 border-t border-slate-800 bg-slate-950/40 flex justify-end">
-              <button
-                onClick={() => setActiveModal(null)}
-                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-medium text-xs transition-colors"
-              >
-                Close
-              </button>
+                  <a
+                    href={GITHUB_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-bold text-white hover:bg-indigo-700 transition-colors"
+                  >
+                    <Code2 className="w-4 h-4" />
+                    Open GitHub Repository
+                  </a>
+
+                  <p className="text-xs text-slate-500">
+                    This compressor is deployed as a
+                    separate application from the
+                    private Quantum Hub website.
+                  </p>
+                </div>
+              )}
+
+              {activeModal ===
+                'how-it-works' && (
+                <div className="space-y-5">
+                  <div>
+                    <h4 className="font-bold text-white mb-2">
+                      Lossless mode
+                    </h4>
+
+                    <p>
+                      Lossless mode uses qpdf
+                      WebAssembly to optimize PDF
+                      structure and recompress
+                      supported streams without
+                      intentionally reducing image
+                      quality.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h4 className="font-bold text-white mb-2">
+                      Deep compression modes
+                    </h4>
+
+                    <p>
+                      Balanced, Maximum, and Extreme
+                      use Ghostscript's pdfwrite
+                      device to rewrite the PDF while
+                      downsampling and recompressing
+                      suitable raster images.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h4 className="font-bold text-white mb-2">
+                      Candidate selection
+                    </h4>
+
+                    <p>
+                      Deep compression can test
+                      several compression settings and
+                      keep the smallest successful
+                      result produced by the selected
+                      mode.
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
